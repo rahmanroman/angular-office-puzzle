@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DF</title>
+
+    <style type="text/css">
+        body, html {
+            background: #eee;
+            color: #000;
+            width: auto;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .main {
+            border: 1px solid #000;
+            background: #fff;
+            width: 800px;
+            height: 600px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        .state {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 800px;
+            height: 600px;;
+        }
+
+        .ng-leave {
+            animation: state-out .5s;
+            z-index: 5;
+        }
+
+        .ng-enter {
+            animation: state-in .5s;
+            z-index: 10;
+        }
+
+        .text {
+            position: absolute;
+            font-size: .8rem;
+            font-weight: 600;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .hint {
+            left: 0;
+            top: 101%;
+        }
+
+        .score {
+            right: 0;
+            top: -21px;
+        }
+
+        @keyframes state-out {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes state-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body ng-app="game">
+<div class="main" ng-view></div>
+
+<script src="scripts/angular.min.js"></script>
+<script src="scripts/angular-route.min.js"></script>
+<script src="scripts/angular-animate.min.js"></script>
+<script src="scripts/app.js"></script>
+
+<script type="text/ng-template" id="/state.html">
+    <div class="state">
+        <img ng-src="/images/states/{{state.id}}.jpg" usemap="#gomap" alt="">
+
+        <map name="gomap" id="gomap">
+            <area alt="" title="" shape="poly" ng-repeat="area in state.data.area" href="javascript:void(0)"
+                  ng-click="state.go(area.id)" coords="{{area.coords}}">
+        </map>
+    </div>
+
+    <div class="text score">Found: {{state.found}}/25</div>
+    <div class="text hint">Use mouse and back button or jump to <a href="#/state/01-295735">jump</a> to start position.</div>
+</script>
+</body>
+</html>
